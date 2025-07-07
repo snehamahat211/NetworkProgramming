@@ -29,8 +29,7 @@ int main() {
         return 1;
     }
      printf("Connected to server! Starting game...\n\n");
-    Sleep(1000);  // Brief pause (Windows-only)
-
+    Sleep(1000);  
     while (1) {
         clear_screen();
         memset(buffer, 0, BUFFER_SIZE);
@@ -40,10 +39,17 @@ int main() {
         }
         printf("%s", buffer);
 
-        // Check if game ended
         if (strstr(buffer, "won") || strstr(buffer, "lost")) {
             break;
         }
+        printf("\nEnter a letter: ");
+        char guess;
+        scanf(" %c", &guess);
+        getchar(); 
+        guess = tolower(guess);
+        send(client_socket, &guess, 1, 0);
+    }
+
 
 
 
