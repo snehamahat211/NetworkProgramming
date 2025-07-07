@@ -53,7 +53,7 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
 - Install a C compiler (e.g., MinGW or Visual Studio) on a Windows system.
 - Ensure `ws2_32.lib` (Winsock library) is available for linking.
 
-### 2. Writing the Server Code
+### 2.1. Writing the Server Code
 - Create a file `WordGuessServer.c` and implement:
   - Winsock initialization (`WSAStartup`)
   - Socket creation and binding
@@ -61,7 +61,8 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
   - Game logic for Hangman (word selection, guess checking, ASCII updates)
   - Cleanup (`closesocket`, `WSACleanup`)
 
-### 3. Compiling the Program
+
+### 2.2. Compiling the Program
 - Compile using the command:
   ```bash
   gcc WordGuessServer.c -o WordGuessServer.exe -lws2_32
@@ -71,10 +72,34 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
   ```bash
   WordGuessServer.exe
   
-### 4. Running the Server
+### 2.3. Running the Server
 - Execute the compiled server program from the command line:
   ```bash
   WordGuessServer.exe
+
+### 3.1. Writing the Server Code
+- Create a new file named `WordGuessClient.c`.
+- Implement the following functionalities:
+  - Initialize Winsock using `WSAStartup`.
+  - Create a socket with TCP protocol (`SOCK_STREAM`).
+  - Set up server connection parameters (IP: `127.0.0.1`, Port: `8080`).
+  - Attempt to connect to the server using `connect()`.
+  - Wait for the server’s game instructions and display them.
+  - Accept one-letter guesses from the user via keyboard input.
+  - Send each guess to the server using `send()`.
+  - Receive updated game state from the server via `recv()`.
+  - Repeat the process until a win or loss message is received.
+  - Properly handle socket closure and clean up resources using `closesocket()` and `WSACleanup()`.
+
+### 3.2. Compiling the Client Program
+- Use the following command to compile:
+  ```bash
+  gcc WordGuessClient.c -o WordGuessClient.exe -lws2_32
+
+### 3.3. Running the Server
+- Execute the compiled client program from the command line:
+  ```bash
+  WordGuessClient.exe
 
 
 ## Technologies Used
