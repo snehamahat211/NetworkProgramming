@@ -49,9 +49,15 @@ void handle_client(SOCKET client_socket) {
     const char *secret_word = get_random_word();  // Select secret word
     printf("Secret word for client: %s\n", secret_word);  // Print on server side
 
-    char guessed_word[strlen(secret_word) + 1];
-    memset(guessed_word, '_', strlen(secret_word));
-    guessed_word[strlen(secret_word)] = '\0';
+    size_t word_len = strlen(secret_word);
+    char *guessed_word = (char *)malloc(word_len + 1);
+    if (!guessed_word) {
+        printf("Memory allocation failed.\n");
+        closesocket(client_socket);
+        return;
+    }
+    memset(guessed_word, '_', word_len);
+    guessed_word[word_len] = '\0';
 
     int attempts_left = MAX_ATTEMPTS;
     int hangman_stage = 0;
@@ -96,14 +102,75 @@ void handle_client(SOCKET client_socket) {
             snprintf(buffer, BUFFER_SIZE, "You lost! The word was: %s\n", secret_word);
         } else {
             snprintf(buffer, BUFFER_SIZE,
-                     "Current word: %s\nAttempts left: %d\n",
+                     "Word: %s\nAttempts left: %d\n", 
                      guessed_word, attempts_left);
         }
         send(client_socket, buffer, strlen(buffer), 0);
     }
+    free(guessed_word);
 
     closesocket(client_socket);
 }
 
 // Main function to set up server and accept client connections
 int main() {
+    WSADATA wsa;
+    SOCKET server_socket, client_socket;
+    struct sockaddr_in server_addr, client_addr;
+    int addr_len = sizeof(client_addr);
+
+    // Seed random number generator once here
+    srand(time(NULL));
+
+    // Initialize Winsock
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+        printf("WSAStartup failed. Error Code: %d\n", WSAGetLastError());
+        return 1;
+    }
+
+    // Create socket
+    server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_socket == INVALID_SOCKET) {
+        printf("Socket creation failed. Error Code: %d\n", WSAGetLastError());
+        WSACleanup();
+        return 1;
+    }
+
+    // Bind socket to port
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(PORT);
+
+    if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
+        printf("Bind failed. Error Code: %d\n", WSAGetLastError());
+        closesocket(server_socket);
+        WSACleanup();
+        return 1;
+    }
+
+    // Listen for clients
+    if (listen(server_socket, 5) == SOCKET_ERROR) {
+        printf("Listen failed. Error Code: %d\n", WSAGetLastError());
+        closesocket(server_socket);
+        WSACleanup();
+        return 1;
+    }
+
+    printf("Server listening on port %d...\n", PORT);
+
+    // Accept client connection (only one client)
+    client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &addr_len);
+    if (client_socket == INVALID_SOCKET) {
+        printf("Accept failed. Error Code: %d\n", WSAGetLastError());
+        closesocket(server_socket);
+        WSACleanup();
+        return 1;
+    }
+
+    printf("Client connected!\n");
+    handle_client(client_socket);
+
+    closesocket(server_socket);
+    WSACleanup();
+    return 0;
+}
