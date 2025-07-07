@@ -49,6 +49,12 @@ int main() {
         guess = tolower(guess);
         send(client_socket, &guess, 1, 0);
     }
+        printf("\nPress any key to exit...");
+        getchar();  // Wait before closing
+        closesocket(client_socket);
+        WSACleanup();
+        return 0;
+}
 
 
 
