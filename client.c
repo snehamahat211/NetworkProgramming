@@ -22,6 +22,29 @@ int main() {
      server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(PORT);
     server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    if (connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
+        printf("Connection failed. Error Code: %d\n", WSAGetLastError());
+        closesocket(client_socket);
+        WSACleanup();
+        return 1;
+    }
+     printf("Connected to server! Starting game...\n\n");
+    Sleep(1000);  // Brief pause (Windows-only)
+
+    while (1) {
+        clear_screen();
+        memset(buffer, 0, BUFFER_SIZE);
+        if (recv(client_socket, buffer, BUFFER_SIZE, 0) <= 0) {
+            printf("Server disconnected.\n");
+            break;
+        }
+        printf("%s", buffer);
+
+        // Check if game ended
+        if (strstr(buffer, "won") || strstr(buffer, "lost")) {
+            break;
+        }
+
 
 
 
