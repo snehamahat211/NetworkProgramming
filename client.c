@@ -1,11 +1,16 @@
-#include <stdio.h>
+#include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
 #include <winsock2.h>
 #include <ctype.h>
+#include <windows.h> 
 #pragma comment(lib, "ws2_32.lib") 
 #define PORT 8080          
-#define BUFFER_SIZE 1024  
+#define BUFFER_SIZE 1024 
+
+void clear_screen() {
+    system("cls");
+}
 int main() {
     WSADATA wsa;                      
     SOCKET client_socket;             
@@ -14,12 +19,16 @@ int main() {
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
     printf("WSAStartup failed. Error Code: %d\n", WSAGetLastError());
     return 1; } 
+
+
     client_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (client_socket == INVALID_SOCKET) {
+    if (client_socket == INVALID_SOCKET) 
+    {
     printf("Socket creation failed. Error Code: %d\n", WSAGetLastError());
     WSACleanup();
     return 1;}
-     server_addr.sin_family = AF_INET;
+
+    server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(PORT);
     server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     if (connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
@@ -28,7 +37,7 @@ int main() {
         WSACleanup();
         return 1;
     }
-     printf("Connected to server! Starting game...\n\n");
+    printf("Connected to server! Starting game...\n\n");
     Sleep(1000);  
     while (1) {
         clear_screen();
