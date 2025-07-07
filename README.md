@@ -1,6 +1,6 @@
-# WordGuessServer
+# WordGuessGame
 
-## Title: WordGuessServer – TCP-based Word Guessing Game using Winsock  
+## Title: WordGuessGame – TCP-based Word Guessing Game using Winsock  
 ---
 **Name:** Astha Thapa(221707)
 
