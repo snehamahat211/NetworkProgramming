@@ -112,7 +112,7 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
 
 
 ## Output
-### connection
+### 1.connection
 ![Output](connect.png)
 
 ### 2. Initial Client Output
