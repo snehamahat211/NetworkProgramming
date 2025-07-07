@@ -77,7 +77,7 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
   ```bash
   WordGuessServer.exe
 
-### 3.1. Writing the Server Code
+### 3.1. Writing the Client Code
 - Create a new file named `WordGuessClient.c`.
 - Implement the following functionalities:
   - Initialize Winsock using `WSAStartup`.
@@ -96,7 +96,7 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
   ```bash
   gcc WordGuessClient.c -o WordGuessClient.exe -lws2_32
 
-### 3.3. Running the Server
+### 3.3. Running the Client
 - Execute the compiled client program from the command line:
   ```bash
   WordGuessClient.exe
