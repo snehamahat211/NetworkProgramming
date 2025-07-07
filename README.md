@@ -112,8 +112,14 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
 
 
 ## Output
-![Alt text](output.png)
-![Alt text](finalout.png)
+### connection
+![Output](connect.png)
+
+### 2. Initial Client Output
+![Initial Client Output](output.png)
+
+### 3. Final Output After Server Communication
+![Final Output](finalout.png)
 
  
 
