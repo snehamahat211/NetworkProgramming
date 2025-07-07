@@ -111,6 +111,8 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
 - **Tools:** MinGW/Visual Studio  
 
 
+## Output
+
 ## Conclusion
 
 This project strengthened our understanding of **TCP socket programming** using **Winsock** in C. By designing both the server and client, we experienced:
