@@ -112,13 +112,13 @@ In a **TCP server-client model**, the server waits for incoming connections, whi
 
 
 ## Output
-### 1.connection
+#### 1.Connection
 ![Output](connect.png)
 
-### 2. Initial Client Output
+#### 2. Initial Client Output
 ![Initial Client Output](output.png)
 
-### 3. Final Output After Server Communication
+#### 3. Final Output After Server Communication
 ![Final Output](finalout.png)
 
  
