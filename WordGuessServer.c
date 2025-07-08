@@ -1,11 +1,12 @@
 // Author: Astha Thapa
 // Project: WordGuessServer
 // Description: Word guessing game server using Winsock (TCP)
-
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <winsock2.h>
+#include <time.h>
 
 #pragma comment(lib, "ws2_32.lib") // Link Winsock library
 
